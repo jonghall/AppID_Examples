@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Example of registering user in Cloud Directory using IBM Cloud AppID
 # https://us-south.appid.cloud.ibm.com/swagger-ui/#/
+
 import json, os, requests, urllib, string, secrets
 
 def getiamtoken(apikey):
