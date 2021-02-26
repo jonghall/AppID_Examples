@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # Example of registering user in Cloud Directory using IBM Cloud AppID
 # https://us-south.appid.cloud.ibm.com/swagger-ui/#/
+# REQUIRED: Environment variables
+#   IC_API_KEY should contain valid apikey with IAM access to AppID Instance
+#   TENNANT_ID should contain TennantId of AppID instance
 
 import json, os, requests, urllib, string, secrets
 
 def getiamtoken(apikey):
-    ################################################
-    ## Lookup interface by ID
-    ################################################
 
     headers = {"Content-Type": "application/x-www-form-urlencoded",
                "Accept": "application/json"}
@@ -56,14 +56,7 @@ def signupUser(userinfo):
         print (resp)
         quit()
 
-    if resp.status_code == 201:
-        user = json.loads(resp.content)
-
-    else:
-        print("Unknown Error", resp)
-        quit()
-
-    return user
+    return json.loads(resp.content)
 
 def updateProfile(id, attributes):
     try:
@@ -80,27 +73,22 @@ def updateProfile(id, attributes):
         print (resp)
         quit()
 
-    if resp.status_code == 200:
-        profile = json.loads(resp.content)
-
-    else:
-        print("Unknown Error", resp)
-        quit()
-
-    return profile
+    return json.loads(resp.content)
 
 
 if __name__ == '__main__':
     appidEndpoint = "https://us-east.appid.cloud.ibm.com"
+    appidTennantId =os.getenv("TENNANT_ID")
     apikey = os.getenv("IC_API_KEY")
     headers = getiamtoken(apikey)
-    appidTennantId = "658b2ef3-275b-4ed9-be65-defc85368b0a"
+
 
     firstName = input("First Name: ")
     lastName = input("Last Name: ")
     email = input("Email: ")
     print ("Creating user account in Cloud Directory...")
 
+    # For demonstration purpose generate random username/password
     userName = random_string(20)
     password = random_string(20)
 
